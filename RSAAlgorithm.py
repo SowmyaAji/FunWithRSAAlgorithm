@@ -1,51 +1,39 @@
-# 1.	Select two distinct primes larger than 100.  Call them p  q.   (do not ask the user )
-# 2.	Let n = p*q
-# print n, p, and q
-# 3.	Select an integer e  in the range 1 < e < n such that gcd (e, (p-1)(q-1) ) == 1 with e > 10
-# The gcd calculation means that e and (p-1)*(q-1) do not share a common factor.  Recall that 35(==7*5) and 6(==2*3) are relatively prime even though neither is prime
-# print e, gcd(e,(p-1)*(q-1) )
-# The public key is the pair (e,n)
-# 4.	Compute d in the range 1 < d < n  such that d*e = 1 mod ( ( p-1)*(q-1) ) which means
-#  e*d -1 == k*(p-1)*(q-1)  for k = 1,2,3, etc
-# This can be computed as follows:
-# Find d such that
-# e*d -1 == k(p-1)*(q-1)    d =  [k(p-1)*(q-1) +1] /e  for k = 1, 2 3 4 5 etc.
-# Suggestion:  use a while loop for k = 1, 2, 3,  4 until [k(p-1)*(q-1) +1] /e  does NOT result in a decimal value for d this is your d
-# The private key is the pair (d,n)  This should be kept secret!
-# print d
-# print( (e*d -1 )/(p-1)*( q-1) )   # should be an integer
-# 5.	Ask the user for a key (integer) from the dictionary below (see source code tab)
-# See the keys and their values but the user input should be an integer in the range 70 – 82
-# print key and the value
-# 6.	Encode the key by using the public key as follows:
-# c  = me mod n  See Khan video for assistance
-# 	print c   as follows: print(“the encoded text is “,c)
-# 7.	Decode:  We decrypt message c to obtain the original key using the private key d
-#  m = cd mod n
-# print (key, value) (should be the key and the original message )
-# for example if the user enters the integer 77 in step 5 then you should print out 77 and  the text 'Enjoy your morning beverage'
-# Use the messages dictionary available in the Source code tab RSATemplate.py and duplicated here:
-# # dictionary
+'''
+A demostration of the RSA Algorithm using two prime numbers greater than 100 and less than 200
+
+'''
 import random
 
 
 def get_primes():
+    ''' Get all prime numbers between 100 and 200 '''
+
     primes_list = [x for x in range(2, 200)
                    if all(x % y != 0 for y in range(2, x)) and x > 100]
     return primes_list
 
 
 def get_pq(primes):
+    ''' 
+    Choose two prime numbers between 100 and 200 as basic keys 
+    '''
+
     p = random.choice(primes)
     q = random.choice(primes)
     return p, q
 
 
 def get_n(p, q):
+    '''
+    Get public key n by multiplying p and q
+    '''
     return p * q
 
 
 def gcd(a, b):
+    '''
+    Calculate the greatest common divisor of the two chosen numbers
+    '''
     if a == 0:
         return b
 
@@ -53,6 +41,9 @@ def gcd(a, b):
 
 
 def get_possible_e(p, q, n):
+    '''
+    Get list of possible greatest common divisors and choose encryption key from them
+    '''
     possibles = []
     for i in range(10, n-1):
         answer = gcd(i, ((p-1)*(q-1)))
@@ -63,6 +54,9 @@ def get_possible_e(p, q, n):
 
 
 def get_dk(p, q, e, n):
+    '''
+    Identify decrpytion key based on the encryption key and find k to multiply with ((p-1) * (q-1)) > also referred to as  theta(n)
+    '''
     d = 2
     k = 0
     while d < n:
@@ -74,6 +68,9 @@ def get_dk(p, q, e, n):
 
 
 def get_key_dict():
+    '''
+    Print a dictionary of keys and messages for demonstration purposes
+    '''
     key_dict = {70: 'What is up?',
                 71: 'You are fast!',
                 72: 'All your trinkets belong to us.',
@@ -92,6 +89,9 @@ def get_key_dict():
 
 
 def get_input_key(key_dict):
+    '''
+    Get user input > a key to match to the messages in the key dictionary
+    '''
     user_input = int(
         input("Pick a number key from this dictionary to encrypt your message! : "))
     if user_input in key_dict:
@@ -101,16 +101,25 @@ def get_input_key(key_dict):
 
 
 def encrypt_key(user_input, e, n):
+    '''
+    Encrypt the message using the RSA Algorithm
+    '''
     c = (user_input**e) % n
     return c
 
 
 def decrypt_key(c, d, n):
+    '''
+    Decrypt the message using the RSA Algorithm
+    '''
     m = (c**d) % n
     return m
 
 
 def print_all():
+    '''
+    Holding function to print all the responses
+    '''
     print(f'Let\'s have fun with the RSA Algorithm!')
     primes = get_primes()
     p, q = get_pq(primes)
