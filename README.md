@@ -1,7 +1,7 @@
 # FunWithRSAAlgorithm
 
 ### Overview
-A simple file to demonstrate the RSA Algorithm in Python
+A simple file to demonstrate the RSA Algorithm in Python -- an exercise for the Computing Fundamentals I course at Wake Tech Community College 
 
 ### To run
 * Clone the repo
