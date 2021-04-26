@@ -2,6 +2,7 @@
 A demostration of the RSA Algorithm using two prime numbers greater than 100 and less than 200
 
 '''
+
 import random
 
 
@@ -85,7 +86,7 @@ def get_key_dict():
                 81: 'CSC 120 Computing Fundamentals',
                 82: 'Best wishes to you'
                 }   # end of dictionary
-    return key_dict
+    return  key_dict
 
 
 def get_input_key(key_dict):
@@ -133,7 +134,8 @@ def print_all():
     print(
         f'4a. The value of (e*d - 1)/(p-1)*(q-1) is: {int((e*d - 1)/(p-1)*(q-1))} ')
     key_dict = get_key_dict()
-    print(f'5. Here is your original dictionary {key_dict}')
+    print(f'5. Here is your original dictionary:')
+    print(key_dict)
     user_input = get_input_key(key_dict)
     if user_input:
         c = encrypt_key(user_input, e, n)
